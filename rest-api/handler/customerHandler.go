@@ -21,50 +21,46 @@ func NewCustomerHandler(customerService *service.CustomerService) *CustomerHandl
 func (ch *CustomerHandler) GetCustomerById(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	customer, err := ch.CustomerService.GetCustomerById(id)
+	var customer *model.Customer
+	var err error
 
-	if err != nil {
+	if customer, err = ch.CustomerService.GetCustomerById(id); err != nil {
 		c.IndentedJSON(http.StatusNotFound, nil)
 		return
 	}
 
 	var customerDto = dto.Customer{}
-	err = mapper.Map(&customerDto, customer)
-
-	if err != nil {
+	if err = mapper.Map(&customerDto, customer); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, nil)
 		return
 	}
 
 	c.IndentedJSON(http.StatusOK, customerDto)
-
 }
 
 func (ch *CustomerHandler) CreateCustomer(c *gin.Context) {
 	var newCustomerDto dto.Customer
-	if err := c.BindJSON(&newCustomerDto); err != nil {
+	var err error
+
+	if err = c.BindJSON(&newCustomerDto); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, nil)
 		return
 	}
 
 	var newCustomer model.Customer
-	err := mapper.Map(&newCustomer, newCustomerDto)
-	if err != nil {
+	if err = mapper.Map(&newCustomer, newCustomerDto); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, nil)
 		return
 	}
 
-	customerSaved, err := ch.CustomerService.Save(newCustomer)
-
-	if err != nil {
+	var customerSaved model.Customer
+	if customerSaved, err = ch.CustomerService.Save(newCustomer); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, nil)
 		return
 	}
 
 	var customerSavedDto = dto.Customer{}
-	err = mapper.Map(&customerSavedDto, customerSaved)
-
-	if err != nil {
+	if err = mapper.Map(&customerSavedDto, customerSaved); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, nil)
 		return
 	}
