@@ -4,10 +4,9 @@ services:
     image: mysql:5.6
     environment:
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=pass
-      - MYSQL_DATABASE=example
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASS
+      - MYSQL_DATABASE=$MYSQL_SCHEMA
     ports:
       - "3306:3306"
-
 
