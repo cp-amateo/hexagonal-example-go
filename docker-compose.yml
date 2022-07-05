@@ -9,4 +9,6 @@ services:
       - MYSQL_DATABASE=$MYSQL_SCHEMA
     ports:
       - "3306:3306"
+    volumes:
+      - "./sql/init.sql:/docker-entrypoint-initdb.d/1.sql"
 

@@ -29,7 +29,7 @@ func (ch *CustomerHandler) GetCustomerById(c *gin.Context) {
 		return
 	}
 
-	var customerDto = dto.Customer{}
+	var customerDto dto.Customer
 	if err = mapper.Map(&customerDto, customer); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, nil)
 		return
@@ -59,7 +59,7 @@ func (ch *CustomerHandler) CreateCustomer(c *gin.Context) {
 		return
 	}
 
-	var customerSavedDto = dto.Customer{}
+	var customerSavedDto dto.Customer
 	if err = mapper.Map(&customerSavedDto, customerSaved); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, nil)
 		return
